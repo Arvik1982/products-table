@@ -1,5 +1,12 @@
 import React from "react";
-import { Search, Loader2, Globe, Bell, Mail, Filter } from "lucide-react";
+import {
+  Search,
+  Loader2,
+  Globe,
+  Bell,
+  Mail,
+  SlidersVertical,
+} from "lucide-react";
 
 interface SearchHeaderProps {
   searchQuery: string;
@@ -13,30 +20,31 @@ export const SearchHeader: React.FC<SearchHeaderProps> = ({
   isFetching,
 }) => {
   return (
-    <div className="bg-white rounded-[10px] shadow-[0_0_10px_rgba(0,0,0,0.1)] mx-8 mt-8">
-      <div className="px-8 py-0">
-        <div className="flex items-center justify-between h-20">
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900">Товары</h1>
+    <div className="bg-white rounded-[10px] shadow-[0_0_10px_rgba(0,0,0,0.1)] mx-4 sm:mx-6 md:mx-8 mt-8">
+      <div className="px-4 sm:px-6 md:px-8 py-0">
+        <div className="flex flex-wrap items-center justify-between gap-4 min-h-[80px] md:min-h-[100px]">
+          {/* Заголовок */}
+          <div className="min-w-[100px] flex-shrink-0">
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#202020]">
+              Товары
+            </h1>
           </div>
 
-          <div className="flex-1 flex justify-center px-4">
-            <div className="relative w-full max-w-2xl">
-              <div className="relative">
-                <Search
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
+          {/* Центральная часть с поиском */}
+          <div className="flex-grow flex justify-center min-w-[300px]">
+            <div className="w-full max-w-[1023px]">
+              <div className="flex items-center p-3 bg-[#F3F3F3] rounded-[8px] h-[48px] w-full">
+                <Search className="text-[#999999] flex-shrink-0" size={20} />
                 <input
                   type="text"
                   placeholder="Поиск товаров..."
                   value={searchQuery}
                   onChange={(e) => onSearchChange(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-gray-100 border-0 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border focus:border-blue-500 transition-all"
+                  className="w-full ml-3 bg-transparent border-0 focus:outline-none text-sm placeholder:text-[#999999] text-gray-900"
                 />
                 {isFetching && (
                   <Loader2
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 animate-spin text-blue-600"
+                    className="animate-spin text-[#999999] ml-2 flex-shrink-0"
                     size={20}
                   />
                 )}
@@ -44,21 +52,36 @@ export const SearchHeader: React.FC<SearchHeaderProps> = ({
             </div>
           </div>
 
-          <div className="flex-1 flex justify-end">
+          {/* Правая часть с иконками */}
+          <div className="flex-shrink-0">
             <div className="flex items-center">
-              <div className="h-8 w-[1px] bg-gray-300 mx-6"></div>
-              <div className="flex items-center space-x-4">
-                <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Globe size={24} />
+              {/* Разделитель */}
+              <div className="hidden sm:block h-14 w-[1px] bg-[#C2C2C2] opacity-50 rounded-[8px] mx-4 sm:mx-6"></div>
+
+              {/* Иконки */}
+              <div className="flex items-center gap-3 sm:gap-4 md:gap-[30px]">
+                <button className="p-1 sm:p-2 text-[#878787] hover:text-[#202020] hover:bg-gray-100 rounded-lg transition-colors">
+                  <Globe size={24} className="sm:w-[28px] sm:h-[28px]" />
                 </button>
-                <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Bell size={24} />
+                <button className="p-1 sm:p-2 text-[#878787] hover:text-[#202020] hover:bg-gray-100 rounded-lg transition-colors relative">
+                  <Bell size={24} className="sm:w-[28px] sm:h-[28px]" />
+                  {/* Бейдж уведомлений */}
+                  <div className="absolute left-4 sm:left-5 top-0">
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-[#797FE9] border-2 border-white rounded-full flex items-center justify-center">
+                      <span className="text-xs font-semibold text-white">
+                        12
+                      </span>
+                    </div>
+                  </div>
                 </button>
-                <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Mail size={24} />
+                <button className="p-1 sm:p-2 text-[#878787] hover:text-[#202020] hover:bg-gray-100 rounded-lg transition-colors">
+                  <Mail size={24} className="sm:w-[28px] sm:h-[28px]" />
                 </button>
-                <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Filter size={24} />
+                <button className="p-1 sm:p-2 text-[#878787] hover:text-[#202020] hover:bg-gray-100 rounded-lg transition-colors">
+                  <SlidersVertical
+                    size={24}
+                    className="sm:w-[28px] sm:h-[28px]"
+                  />
                 </button>
               </div>
             </div>

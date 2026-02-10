@@ -12,6 +12,7 @@ interface AppButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: keyof typeof Icons;
   iconPosition?: "left" | "right";
   fullWidth?: boolean;
+  showDropdown?: boolean;
 }
 
 export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
@@ -25,6 +26,7 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
       icon,
       iconPosition = "left",
       fullWidth = false,
+      showDropdown = false,
       className = "",
       disabled,
       ...props
@@ -40,24 +42,10 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
 
     const variantStyles = {
       primary: {
-        base: `
-      bg-[#242EDB] 
-      text-white 
-      shadow-lg 
-      relative 
-      overflow-hidden
-      before:absolute 
-      before:inset-0 
-      before:bg-gradient-to-b 
-      before:from-white 
-      before:to-transparent 
-      before:opacity-10
-      before:pointer-events-none
-    `,
-        hover:
-          "hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:scale-[1.02]",
+        base: `bg-[#242EDB] text-[#EBF3EA] relative`,
+        hover: "hover:opacity-90",
         active: "active:scale-[0.98]",
-        disabled: "bg-gray-200 text-gray-500 cursor-not-allowed",
+        disabled: "bg-gray-300 text-gray-500 cursor-not-allowed",
       },
       secondary: {
         base: "bg-gray-100 text-gray-700 border border-gray-300",
@@ -66,33 +54,32 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
         disabled: "bg-gray-200 text-gray-500 cursor-not-allowed",
       },
       danger: {
-        base: "bg-gradient-to-r from-red-600 to-pink-600 text-white shadow-lg",
-        hover:
-          "hover:from-red-700 hover:to-pink-700 hover:shadow-xl hover:scale-[1.02]",
+        base: "bg-red-600 text-white",
+        hover: "hover:bg-red-700",
         active: "active:scale-[0.98]",
         disabled: "bg-gray-200 text-gray-500 cursor-not-allowed",
       },
       success: {
-        base: "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg",
-        hover:
-          "hover:from-green-700 hover:to-emerald-700 hover:shadow-xl hover:scale-[1.02]",
+        base: "bg-green-600 text-white",
+        hover: "hover:bg-green-700",
         active: "active:scale-[0.98]",
         disabled: "bg-gray-200 text-gray-500 cursor-not-allowed",
       },
     };
 
     const sizeStyles = {
-      sm: "py-2 px-4 text-sm rounded-lg",
-      md: "py-3 px-5 text-base rounded-xl",
-      lg: "py-4 px-6 text-lg rounded-xl",
+      sm: "py-2 px-3 text-sm rounded-[6px] gap-2",
+      md: "py-[10px] px-[20px] text-[14px] rounded-[6px] gap-[15px] h-[42px] min-h-[42px]",
+      lg: "py-4 px-6 text-lg rounded-xl gap-4",
     };
 
     const currentVariant = variantStyles[variant];
     const isDisabled = disabled || isLoading;
 
     const buttonClass = `
-      inline-flex items-center justify-center gap-3
-      font-bold transition-all duration-200 transform
+      inline-flex items-center justify-center
+      font-semibold transition-all duration-200
+      font-['Cairo']
       ${fullWidth ? "w-full" : ""}
       ${sizeStyles[size]}
       ${isDisabled ? currentVariant.disabled : `${currentVariant.base} ${currentVariant.hover} ${currentVariant.active}`}
@@ -101,7 +88,7 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
 
     const iconSizes = {
       sm: 16,
-      md: 20,
+      md: 22,
       lg: 24,
     };
 
@@ -126,7 +113,7 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
         return (
           <>
             {renderIcon("left")}
-            {loadingText}
+            <span className="leading-[26px]">{loadingText}</span>
           </>
         );
       }
@@ -135,7 +122,7 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
         return (
           <>
             {renderIcon("left")}
-            {children}
+            <span className="leading-[26px]">{children}</span>
           </>
         );
       }
@@ -143,8 +130,14 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
       return (
         <>
           {iconPosition === "left" && renderIcon("left")}
-          {children}
+          <span className="leading-[26px]">{children}</span>
           {iconPosition === "right" && renderIcon("right")}
+          {showDropdown && (
+            <Icons.ChevronDown
+              size={18}
+              className="shrink-0 text-[#FFFFFF] ml-2"
+            />
+          )}
         </>
       );
     };
@@ -154,6 +147,12 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
         ref={ref}
         className={buttonClass}
         disabled={isDisabled}
+        style={{
+          fontFamily: "'Cairo', sans-serif",
+          fontWeight: 600,
+          fontSize: "14px",
+          lineHeight: "26px",
+        }}
         {...props}
       >
         {renderContent()}

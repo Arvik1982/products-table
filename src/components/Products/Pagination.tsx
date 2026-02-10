@@ -28,12 +28,10 @@ export const Pagination: React.FC<PaginationProps> = ({
     const maxVisiblePages = 5;
 
     if (totalPages <= maxVisiblePages) {
-      // Показываем все страницы
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Показываем ограниченное количество страниц
       let startPage = Math.max(1, currentPage - 2);
       const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
@@ -50,7 +48,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   if (totalPages <= 1) {
-    return null; // Не показываем пагинацию если всего 1 страница
+    return null;
   }
 
   return (
@@ -62,7 +60,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
           disabled={skip === 0 || isLoading}
-          className="px-3 py-1.5 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-3 py-1.5  rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label="Предыдущая страница"
         >
           <ChevronLeft size={16} />
@@ -91,7 +89,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             handlePageChange(Math.min(totalPages, currentPage + 1))
           }
           disabled={skip + limit >= total || isLoading}
-          className="px-3 py-1.5 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-3 py-1.5 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label="Следующая страница"
         >
           <ChevronRight size={16} />

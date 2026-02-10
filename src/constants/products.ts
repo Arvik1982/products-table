@@ -1,6 +1,5 @@
 import type { ProductFormData } from "../types";
 
-// Идентификаторы колонок таблицы
 export const TABLE_COLUMNS = {
   PRODUCT_NAME: "productName",
   BRAND: "brand",
@@ -11,7 +10,6 @@ export const TABLE_COLUMNS = {
   ACTIONS: "actions",
 } as const;
 
-// Начальные ширины колонок
 export const INITIAL_COLUMN_WIDTHS: Record<string, number> = {
   [TABLE_COLUMNS.PRODUCT_NAME]: 350,
   [TABLE_COLUMNS.BRAND]: 125,
@@ -22,7 +20,6 @@ export const INITIAL_COLUMN_WIDTHS: Record<string, number> = {
   [TABLE_COLUMNS.ACTIONS]: 133,
 };
 
-// Минимальные ширины колонок для ресайза
 export const MINIMUM_COLUMN_WIDTHS: Record<string, number> = {
   [TABLE_COLUMNS.PRODUCT_NAME]: 200,
   [TABLE_COLUMNS.BRAND]: 80,
@@ -33,7 +30,6 @@ export const MINIMUM_COLUMN_WIDTHS: Record<string, number> = {
   [TABLE_COLUMNS.ACTIONS]: 80,
 };
 
-// Тексты для UI
 export const TABLE_TEXTS = {
   HEADER: "Все позиции",
   ADD_PRODUCT: "Добавить",
@@ -55,18 +51,15 @@ export const TABLE_TEXTS = {
   },
 } as const;
 
-// Настройки пагинации
 export const PAGINATION_CONFIG = {
   DEFAULT_PAGE_SIZE: 20,
   DEFAULT_SKIP: 0,
 } as const;
 
-// Настройки поиска
 export const SEARCH_CONFIG = {
   DEBOUNCE_DELAY: 500, // мс
 } as const;
 
-// Настройки редактирования
 export const EDIT_CONFIG = {
   LOW_RATING_THRESHOLD: 3,
   RATING_MAX: 5,
@@ -75,7 +68,6 @@ export const EDIT_CONFIG = {
   STOCK_MIN: 0,
 } as const;
 
-// Значения по умолчанию для нового товара
 export const DEFAULT_NEW_PRODUCT: ProductFormData = {
   title: "",
   brand: "",
@@ -85,14 +77,12 @@ export const DEFAULT_NEW_PRODUCT: ProductFormData = {
   category: "",
 };
 
-// Опции для типов полей
 export const FIELD_TYPES = {
   TEXT: "text",
   NUMBER: "number",
   CURRENCY: "currency",
 } as const;
 
-// Конфигурация колонок для фабрики
 export const COLUMN_CONFIGS = {
   brand: {
     header: "Вендор",
@@ -105,18 +95,18 @@ export const COLUMN_CONFIGS = {
     maxWidth: 150,
   },
   rating: {
-    header: "Рейтинг",
+    header: "Оценка",
     type: FIELD_TYPES.NUMBER,
     shouldShowLowRatingWarning: true,
     maxWidth: 120,
   },
   price: {
-    header: "Цена",
+    header: "Цена, Р",
     type: FIELD_TYPES.CURRENCY,
     maxWidth: 120,
   },
   stock: {
-    header: "Остаток",
+    header: "Коичество",
     type: FIELD_TYPES.NUMBER,
     maxWidth: 100,
   },

@@ -1,14 +1,19 @@
 import React from "react";
+import { CircleEllipsis } from "lucide-react";
 
-export const MoreButton: React.FC = () => {
+export const MoreButton: React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+> = (props) => {
   return (
-    <div className="relative w-8 h-8 flex items-center justify-center">
-      <div className="absolute inset-[9.38%] border border-[#B2B3B9] rounded-full"></div>
-      <div className="flex items-center justify-center gap-1 relative z-10">
-        <div className="w-1 h-1 bg-[#B2B3B9] rounded-full"></div>
-        <div className="w-1 h-1 bg-[#B2B3B9] rounded-full"></div>
-        <div className="w-1 h-1 bg-[#B2B3B9] rounded-full"></div>
-      </div>
-    </div>
+    <button
+      {...props}
+      className="flex items-center justify-center hover:opacity-80 transition-opacity focus:outline-none"
+      style={{
+        width: "32px",
+        height: "32px",
+      }}
+    >
+      <CircleEllipsis size={32} color="#B2B3B9" strokeWidth={1.5} />
+    </button>
   );
 };

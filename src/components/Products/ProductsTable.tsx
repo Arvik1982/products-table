@@ -7,12 +7,11 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 import {
-  Plus,
   Loader2,
   RefreshCw,
-  Filter,
   ChevronUp,
   ChevronDown,
+  ListFilter,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import type { ProductFormData } from "../../types";
@@ -41,6 +40,7 @@ import {
   TOOLTIP_TEXTS,
 } from "../../constants/texts";
 import { STORAGE_KEYS } from "../../storage/storage";
+import { AppButton } from "../ui/AppButton";
 
 interface ProductsTableProps {
   authToken?: string;
@@ -215,7 +215,6 @@ export const ProductsTable: React.FC<ProductsTableProps> = () => {
     }
   };
 
-  // Сбрасываем поиск при вводе
   useEffect(() => {
     setSkipCount(PAGINATION_CONFIG.DEFAULT_SKIP);
   }, [debouncedSearchValue]);
@@ -267,18 +266,17 @@ export const ProductsTable: React.FC<ProductsTableProps> = () => {
                   className="flex items-center justify-center p-2.5 w-10 h-10 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
                   title={TOOLTIP_TEXTS.FILTER}
                 >
-                  <Filter size={20} className="text-gray-700" />
+                  <ListFilter size={20} className="text-gray-700" />
                 </button>
-                <button
+                <AppButton
                   onClick={() => setIsAddingProduct(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  icon="PlusCircle"
+                  variant="primary"
+                  size="md"
                   title={TOOLTIP_TEXTS.ADD_PRODUCT}
                 >
-                  <Plus size={20} />
-                  <span className="text-sm font-semibold">
-                    {TABLE_TEXTS.ADD_PRODUCT}
-                  </span>
-                </button>
+                  {TABLE_TEXTS.ADD_PRODUCT}
+                </AppButton>
               </div>
             </div>
           </div>

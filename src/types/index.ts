@@ -32,6 +32,7 @@ export interface ProductFormData {
   price: number;
   stock: number;
   category: string;
+  rating?: number;
 }
 
 export interface ColumnSort {

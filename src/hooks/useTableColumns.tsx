@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo } from "react";
 import {
   COLUMN_CONFIGS,
   FIELD_TYPES,
@@ -11,6 +11,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { QuantityBars } from "../components/Products/QuantityBars";
 import { PlusButton } from "../components/Products/PlusButton";
 import { MoreButton } from "../components/Products/MoreButton";
+import { CustomCheckbox } from "../components/Products/CustomCheckbox";
 
 interface UseTableColumnsProps {
   productsResponse?: { products?: Product[]; total?: number };
@@ -30,10 +31,6 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
     toggleProductSelection,
   } = props;
 
-  // REF для indeterminate
-  const checkboxRef = useRef<HTMLInputElement>(null);
-
-  // Состояние чекбокса
   const { isAllSelected, isIndeterminate } = useMemo(() => {
     const products = productsResponse?.products || [];
     const allSelected =
@@ -45,16 +42,9 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
     return { isAllSelected: allSelected, isIndeterminate: indeterminate };
   }, [productsResponse, selectedProductIds]);
 
-  // Эффект для обновления indeterminate состояния
-  useEffect(() => {
-    if (checkboxRef.current) {
-      checkboxRef.current.indeterminate = isIndeterminate;
-    }
-  }, [isIndeterminate]);
-
   const columns = useMemo<ColumnDef<Product>[]>(() => {
-    // Фабрика для создания простых колонок
-    const createSimpleColumn = (
+    // Фабрика создание колонок
+    const createColumn = (
       fieldName: keyof Product,
       columnKey: string,
       columnHeader: string,
@@ -84,12 +74,10 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
         cell: ({ row }) => {
           const product = row.original;
 
-          // Если есть кастомная ячейка
           if (options.customCell) {
             return options.customCell(product);
           }
 
-          // Простое отображение значения
           const value = product[fieldName];
 
           if (
@@ -141,12 +129,10 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
       header: () => (
         <div className="flex items-center h-full">
           <div className="flex items-center gap-4 w-full">
-            <input
-              ref={checkboxRef}
-              type="checkbox"
+            <CustomCheckbox
               checked={isAllSelected}
               onChange={toggleSelectAllProducts}
-              className="w-5 h-5 border border-gray-300 rounded focus:ring-0 cursor-pointer"
+              indeterminate={isIndeterminate}
             />
             <div className="text-base font-bold text-gray-400 text-center flex-1 min-w-0">
               {TABLE_TEXTS.COLUMN_HEADERS.PRODUCT_NAME}
@@ -158,24 +144,36 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
         const product = row.original;
         const isSelected = selectedProductIds.includes(product.id);
 
+        const handleRowClick = (e: React.MouseEvent) => {
+          const target = e.target as HTMLElement;
+          if (
+            target.classList.contains("custom-checkbox") ||
+            target.closest(".custom-checkbox")
+          ) {
+            return;
+          }
+          toggleProductSelection(product.id);
+        };
+
         return (
-          <div className="flex items-center h-full">
+          <div
+            className="flex items-center h-full cursor-pointer"
+            onClick={handleRowClick}
+          >
             <div className="flex items-center gap-4 w-full">
-              <div className="w-5 h-5 flex-shrink-0">
-                <input
-                  type="checkbox"
+              <div className="w-5 h-5 flex-shrink-0 custom-checkbox">
+                <CustomCheckbox
                   checked={isSelected}
                   onChange={() => toggleProductSelection(product.id)}
-                  className="w-full h-full border border-gray-300 rounded focus:ring-0 focus:ring-offset-0 cursor-pointer"
                 />
               </div>
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 <div className="w-12 h-12 bg-gray-100 border border-gray-200 rounded-lg flex-shrink-0"></div>
                 <div className="flex flex-col flex-1 min-w-0">
-                  <div className="text-base font-bold text-gray-900 truncate">
+                  <div className="font-['Cairo'] font-bold text-[16px] leading-[30px] text-[#161919]">
                     {product.title}
                   </div>
-                  <div className="text-sm text-gray-400 truncate">
+                  <div className="font-['Cairo'] font-normal text-[14px] leading-[26px] text-[#B2B3B9]">
                     {product.category}
                   </div>
                 </div>
@@ -186,26 +184,35 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
       },
     };
 
-    // Остальные колонки
-    const brandColumn = createSimpleColumn(
+    const brandColumn = createColumn(
       "brand",
       TABLE_COLUMNS.BRAND,
       COLUMN_CONFIGS.brand?.header || "Бренд",
       {
         maxWidth: COLUMN_CONFIGS.brand?.maxWidth,
+        customCell: (product) => (
+          <div className="font-['Open_Sans'] font-bold text-[16px] leading-[22px] text-black text-center">
+            {product.brand}
+          </div>
+        ),
       },
     );
 
-    const skuColumn = createSimpleColumn(
+    const skuColumn = createColumn(
       "sku",
       TABLE_COLUMNS.SKU,
       COLUMN_CONFIGS.sku?.header || "SKU",
       {
         maxWidth: COLUMN_CONFIGS.sku?.maxWidth,
+        customCell: (product) => (
+          <div className="font-['Open_Sans'] font-normal text-[16px] leading-[22px] text-black text-center">
+            {product.sku}
+          </div>
+        ),
       },
     );
 
-    const ratingColumn = createSimpleColumn(
+    const ratingColumn = createColumn(
       "rating",
       TABLE_COLUMNS.RATING,
       COLUMN_CONFIGS.rating?.header || "Рейтинг",
@@ -213,20 +220,43 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
         type: FIELD_TYPES.NUMBER,
         shouldShowLowRatingWarning: true,
         maxWidth: COLUMN_CONFIGS.rating?.maxWidth,
+        customCell: (product) => {
+          const isLowRating = product.rating < 3;
+          return (
+            <div
+              className={`font-['Open_Sans'] font-normal text-[16px] leading-[22px] text-center truncate px-2 ${
+                isLowRating ? "text-red-600" : "text-black"
+              }`}
+            >
+              {product.rating.toFixed(1)}/5
+            </div>
+          );
+        },
       },
     );
 
-    const priceColumn = createSimpleColumn(
+    const priceColumn = createColumn(
       "price",
       TABLE_COLUMNS.PRICE,
       COLUMN_CONFIGS.price?.header || "Цена",
       {
         type: FIELD_TYPES.CURRENCY,
         maxWidth: COLUMN_CONFIGS.price?.maxWidth,
+        customCell: (product) => (
+          <div
+            className="font-['Roboto_Mono'] font-normal text-[16px] text-center text-[#222222] truncate px-2"
+            style={{ lineHeight: "110%" }}
+          >
+            {product.price.toLocaleString("ru-RU", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}{" "}
+            ₽
+          </div>
+        ),
       },
     );
-
-    const stockColumn = createSimpleColumn(
+    const stockColumn = createColumn(
       "stock",
       TABLE_COLUMNS.STOCK,
       COLUMN_CONFIGS.stock?.header || "Остаток",
@@ -240,7 +270,6 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
       },
     );
 
-    // Колонка действий
     const actionsColumnSize =
       columnWidths[TABLE_COLUMNS.ACTIONS] ||
       INITIAL_COLUMN_WIDTHS[TABLE_COLUMNS.ACTIONS] ||
@@ -279,6 +308,7 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
     ];
   }, [
     isAllSelected,
+    isIndeterminate,
     columnWidths,
     selectedProductIds,
     toggleSelectAllProducts,
