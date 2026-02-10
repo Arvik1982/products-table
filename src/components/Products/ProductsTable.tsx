@@ -251,7 +251,7 @@ export const ProductsTable: React.FC<ProductsTableProps> = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
           <div className="p-6 border-b border-gray-200">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="font-['Inter'] font-bold text-[24px] leading-[45px] text-[#202020]">
                 {TABLE_TEXTS.HEADER}
               </h2>
               <div className="flex items-center gap-2">
@@ -298,30 +298,42 @@ export const ProductsTable: React.FC<ProductsTableProps> = () => {
                       return (
                         <th
                           key={header.id}
-                          className="px-4 py-3 text-left text-sm font-medium text-gray-700 bg-gray-50 cursor-pointer select-none relative group"
+                          className="px-4 py-3 text-center text-sm font-medium text-gray-700 bg-gray-50 cursor-pointer select-none relative group"
                           style={{
                             width: `${columnWidth}px`,
                             position: "relative",
                           }}
                           onClick={column.getToggleSortingHandler()}
                         >
-                          <div className="flex items-center justify-between h-full">
-                            <div className="flex items-center w-full">
+                          {columnId === TABLE_COLUMNS.PRODUCT_NAME ? (
+                            <div className="flex items-center h-full">
+                              <div className="flex items-center gap-4 w-full">
+                                <div className="flex-shrink-0">
+                                  {header.column.id ===
+                                    TABLE_COLUMNS.PRODUCT_NAME &&
+                                    flexRender(
+                                      column.columnDef.header,
+                                      header.getContext(),
+                                    )}
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="inline-flex items-center gap-1 justify-center w-full">
                               {flexRender(
                                 column.columnDef.header,
                                 header.getContext(),
                               )}
+                              <div className="inline-flex items-center">
+                                {isColumnSorted === "asc" && (
+                                  <ChevronUp size={16} />
+                                )}
+                                {isColumnSorted === "desc" && (
+                                  <ChevronDown size={16} />
+                                )}
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1 ml-2 flex-shrink-0">
-                              {isColumnSorted === "asc" && (
-                                <ChevronUp size={16} />
-                              )}
-                              {isColumnSorted === "desc" && (
-                                <ChevronDown size={16} />
-                              )}
-                              {!isColumnSorted && <div className="w-4 h-4" />}
-                            </div>
-                          </div>
+                          )}
 
                           {columnId !== TABLE_COLUMNS.ACTIONS && (
                             <div
@@ -373,24 +385,30 @@ export const ProductsTable: React.FC<ProductsTableProps> = () => {
                     </td>
                   </tr>
                 ) : (
-                  productTable.getRowModel().rows.map((row) => (
-                    <tr
-                      key={row.id}
-                      className="border-b border-gray-100 hover:bg-gray-50"
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <td
-                          key={cell.id}
-                          className="px-4 py-4 text-sm text-gray-700"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))
+                  productTable.getRowModel().rows.map((row) => {
+                    const product = row.original;
+                    const isSelected = selectedProductIds.includes(product.id);
+                    return (
+                      <tr
+                        key={row.id}
+                        className={`relative border-b border-gray-100 hover:bg-gray-50 ${
+                          isSelected ? "border-l-[5px] border-l-[#3C538E]" : ""
+                        }`}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <td
+                            key={cell.id}
+                            className="px-4 py-4 text-sm text-gray-700"
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>

@@ -31,6 +31,7 @@ export const MINIMUM_COLUMN_WIDTHS: Record<string, number> = {
 };
 
 export const TABLE_TEXTS = {
+  PRODUCTS: "Товары",
   HEADER: "Все позиции",
   ADD_PRODUCT: "Добавить",
   LOADING: "Загрузка товаров...",

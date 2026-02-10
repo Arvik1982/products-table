@@ -7,6 +7,7 @@ import {
   Mail,
   SlidersVertical,
 } from "lucide-react";
+import { TABLE_TEXTS } from "../../constants/products";
 
 interface SearchHeaderProps {
   searchQuery: string;
@@ -25,8 +26,8 @@ export const SearchHeader: React.FC<SearchHeaderProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 min-h-[80px] md:min-h-[100px]">
           {/* Заголовок */}
           <div className="min-w-[100px] flex-shrink-0">
-            <h1 className="text-2xl sm:text-3xl font-bold text-[#202020]">
-              Товары
+            <h1 className="font-['Inter'] font-bold text-[24px] leading-[45px] text-[#202020]">
+              {TABLE_TEXTS.PRODUCTS}
             </h1>
           </div>
 

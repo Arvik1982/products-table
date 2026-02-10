@@ -53,8 +53,10 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-      <div className="text-sm text-gray-600">
-        Показано {skip + 1}-{Math.min(skip + limit, total)} из {total}
+      <div className="font-['Inter'] text-[14px] text-[#969B9F]">
+        Показано <span className="text-black">{skip + 1}</span>-
+        <span className="text-black">{Math.min(skip + limit, total)}</span> из{" "}
+        <span className="text-black">{total}</span>
       </div>
       <div className="flex items-center gap-2">
         <button

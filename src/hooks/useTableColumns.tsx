@@ -170,10 +170,10 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 <div className="w-12 h-12 bg-gray-100 border border-gray-200 rounded-lg flex-shrink-0"></div>
                 <div className="flex flex-col flex-1 min-w-0">
-                  <div className="font-['Cairo'] font-bold text-[16px] leading-[30px] text-[#161919]">
+                  <div className="font-['Open_Sans'] font-bold text-[16px] leading-[30px] text-[#161919]">
                     {product.title}
                   </div>
-                  <div className="font-['Cairo'] font-normal text-[14px] leading-[26px] text-[#B2B3B9]">
+                  <div className="font-['Open_Sans'] font-normal text-[14px] leading-[26px] text-[#B2B3B9]">
                     {product.category}
                   </div>
                 </div>
@@ -281,18 +281,8 @@ export const useTableColumns = (props: UseTableColumnsProps) => {
       header: () => <div className="text-base font-bold text-gray-400" />,
       cell: () => (
         <div className="flex justify-center items-center gap-8">
-          <button
-            className="hover:opacity-90 transition-opacity"
-            title="Увеличить количество"
-          >
-            <PlusButton />
-          </button>
-          <button
-            className="text-gray-400 hover:text-gray-500 transition-colors"
-            title="Дополнительные действия"
-          >
-            <MoreButton />
-          </button>
+          <PlusButton />
+          <MoreButton />
         </div>
       ),
     };
