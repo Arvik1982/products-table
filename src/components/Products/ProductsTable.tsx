@@ -6,14 +6,8 @@ import {
   flexRender,
   type SortingState,
 } from "@tanstack/react-table";
-import {
-  Loader2,
-  RefreshCw,
-  ChevronUp,
-  ChevronDown,
-  ListFilter,
-} from "lucide-react";
-import toast from "react-hot-toast";
+import { RefreshCw, ChevronUp, ChevronDown, ListFilter } from "lucide-react";
+
 import type { ProductFormData } from "../../types";
 import {
   useGetProductsQuery,
@@ -22,7 +16,7 @@ import {
 import { useDebounce } from "../../hooks/useDebounce";
 import { useTableColumns } from "../../hooks/useTableColumns";
 import { SearchHeader } from "./SearchHeader";
-import { AddProductForm } from "./AddProductForm";
+
 import { Pagination } from "./Pagination";
 import {
   TABLE_COLUMNS,
@@ -31,16 +25,12 @@ import {
   TABLE_TEXTS,
   PAGINATION_CONFIG,
   SEARCH_CONFIG,
-  EDIT_CONFIG,
   DEFAULT_NEW_PRODUCT,
 } from "../../constants/products";
-import {
-  ERROR_TEXTS,
-  SUCCESS_TEXTS,
-  TOOLTIP_TEXTS,
-} from "../../constants/texts";
+import { TOOLTIP_TEXTS } from "../../constants/texts";
 import { STORAGE_KEYS } from "../../storage/storage";
 import { AppButton } from "../ui/AppButton";
+import { TableBody } from "./TableBody";
 
 interface ProductsTableProps {
   authToken?: string;
@@ -137,28 +127,6 @@ export const ProductsTable: React.FC<ProductsTableProps> = () => {
     },
     [columnWidths],
   );
-
-  const handleAddNewProduct = async () => {
-    if (
-      !newProductData.title.trim() ||
-      !newProductData.brand.trim() ||
-      !newProductData.sku.trim() ||
-      newProductData.price <= EDIT_CONFIG.PRICE_MIN
-    ) {
-      toast.error(ERROR_TEXTS.VALIDATION.ALL_FIELDS_REQUIRED);
-      return;
-    }
-
-    try {
-      await addProduct(newProductData).unwrap();
-      toast.success(SUCCESS_TEXTS.ADD_PRODUCT);
-      setNewProductData(DEFAULT_NEW_PRODUCT);
-      setIsAddingProduct(false);
-      refreshProducts();
-    } catch {
-      toast.error(ERROR_TEXTS.ADD_PRODUCT);
-    }
-  };
 
   const toggleProductSelection = useCallback((productId: number) => {
     setSelectedProductIds((prev) =>
@@ -355,62 +323,20 @@ export const ProductsTable: React.FC<ProductsTableProps> = () => {
                   </tr>
                 ))}
               </thead>
-              <tbody>
-                {isAddingProduct && (
-                  <AddProductForm
-                    newProduct={newProductData}
-                    onNewProductChange={setNewProductData}
-                    onSave={handleAddNewProduct}
-                    onCancel={() => setIsAddingProduct(false)}
-                    columnWidths={columnWidths}
-                    getColumnWidth={getCurrentColumnWidth}
-                  />
-                )}
-
-                {isLoadingProducts ? (
-                  <tr>
-                    <td
-                      colSpan={columns.length}
-                      className="px-4 py-12 text-center"
-                    >
-                      <div className="flex flex-col items-center justify-center gap-3">
-                        <Loader2
-                          className="animate-spin text-blue-600"
-                          size={40}
-                        />
-                        <span className="text-gray-600 font-medium">
-                          {TABLE_TEXTS.LOADING}
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                ) : (
-                  productTable.getRowModel().rows.map((row) => {
-                    const product = row.original;
-                    const isSelected = selectedProductIds.includes(product.id);
-                    return (
-                      <tr
-                        key={row.id}
-                        className={`relative border-b border-gray-100 hover:bg-gray-50 ${
-                          isSelected ? "border-l-[5px] border-l-[#3C538E]" : ""
-                        }`}
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <td
-                            key={cell.id}
-                            className="px-4 py-4 text-sm text-gray-700"
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
+              <TableBody
+                isLoading={isLoadingProducts}
+                isAddingProduct={isAddingProduct}
+                newProductData={newProductData}
+                addProduct={addProduct}
+                refreshProducts={refreshProducts}
+                setNewProductData={setNewProductData}
+                setIsAddingProduct={setIsAddingProduct}
+                columnWidths={columnWidths}
+                getCurrentColumnWidth={getCurrentColumnWidth}
+                selectedProductIds={selectedProductIds}
+                columnsCount={columns.length}
+                visibleRows={productTable.getRowModel().rows}
+              />
             </table>
           </div>
 
