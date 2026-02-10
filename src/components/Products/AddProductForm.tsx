@@ -2,7 +2,7 @@ import React from "react";
 import { Check, X } from "lucide-react";
 import type { ProductFormData } from "../../types";
 
-interface AddProductFormProps {
+interface Props {
   newProduct: ProductFormData;
   onNewProductChange: (product: ProductFormData) => void;
   onSave: () => void;
@@ -11,7 +11,7 @@ interface AddProductFormProps {
   getColumnWidth: (columnId: string) => number;
 }
 
-export const AddProductForm: React.FC<AddProductFormProps> = ({
+export const AddProductForm: React.FC<Props> = ({
   newProduct,
   onNewProductChange,
   onSave,

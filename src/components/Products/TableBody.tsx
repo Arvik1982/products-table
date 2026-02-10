@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { flexRender, type Row } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-
 import { AddProductForm } from "./AddProductForm";
 
 import {

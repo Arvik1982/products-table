@@ -7,7 +7,6 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 import { RefreshCw, ChevronUp, ChevronDown, ListFilter } from "lucide-react";
-
 import type { ProductFormData } from "../../types";
 import {
   useGetProductsQuery,
@@ -16,7 +15,6 @@ import {
 import { useDebounce } from "../../hooks/useDebounce";
 import { useTableColumns } from "../../hooks/useTableColumns";
 import { SearchHeader } from "./SearchHeader";
-
 import { Pagination } from "./Pagination";
 import {
   TABLE_COLUMNS,
