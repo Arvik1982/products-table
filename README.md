@@ -17,6 +17,7 @@ React 18+ TypeScript приложение для административно�
 
 ## 🛠 Технический стек
 
+```
 🔹 React 18+ (TypeScript, Vite)
 🔹 React Hook Form + Zod (формы)
 🔹 Sonner (Toast уведомления)
@@ -24,6 +25,7 @@ React 18+ TypeScript приложение для административно�
 🔹 React Table (таблица + сортировка)
 🔹 Lucide React (иконки)
 🔹 Redux+RTq
+```
 
 ## 🚀 Быстрый старт
 
