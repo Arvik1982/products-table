@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { LOGIN_TEXTS } from "../../constants/texts";
-import logo from "@/assets/logo.png";
+import logo from "../../assets/logo.png";
 
 type Props = { children: ReactNode };
 export const LoginContainer = ({ children }: Props) => {
