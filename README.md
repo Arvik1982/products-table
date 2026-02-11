@@ -32,3 +32,11 @@ npm install
 npm run dev
 # http://localhost:5173
 ```
+
+```markdown
+## 🌐 Live Demo
+
+[![Demo](https://img.shields.io/badge/Live_Demo-blue?logo=github&logoColor=white)](https://arvik1982.github.io/products-table/)
+
+**Деплой**: `npm run deploy`
+```

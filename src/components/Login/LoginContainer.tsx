@@ -11,7 +11,6 @@ export const LoginContainer = ({ children }: Props) => {
           <div
             className="w-[60px] h-[60px] bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto"
             style={{
-              // backgroundImage: `url('src/assets/logo.png')`,
               backgroundImage: `url(${logo})`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
