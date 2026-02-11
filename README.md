@@ -28,15 +28,19 @@ React 18+ TypeScript приложение для административно�
 ## 🚀 Быстрый старт
 
 ```bash
+
 npm install
 npm run dev
-# http://localhost:5173
+
+http://localhost:5173
+
 ```
 
-```markdown
-## 🌐 Live Demo
+## 📤 Деплой на GitHub Pages
 
-[![Demo](https://img.shields.io/badge/Live_Demo-blue?logo=github&logoColor=white)](https://arvik1982.github.io/products-table/)
+```bash
+npm run deploy
 
-**Деплой**: `npm run deploy`
+https://arvik1982.github.io/products-table/
+
 ```
