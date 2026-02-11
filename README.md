@@ -27,9 +27,10 @@ React 18+ TypeScript приложение для административно�
 
 ## 🚀 Быстрый старт
 
+```bash
 npm install
-
 npm run dev
+```
 
 ```bash
 http://localhost:5173
@@ -38,7 +39,9 @@ http://localhost:5173
 
 ## 📤 Деплой на GitHub Pages
 
+```bash
 npm run deploy
+```
 
 ```bash
 
