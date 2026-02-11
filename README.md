@@ -45,7 +45,7 @@ http://localhost:5173
 ```bash
 npm run deploy
 ```
-
+### Для получения списка тоааров может потребоваться VPN
 ```bash
 
 https://arvik1982.github.io/products-table/
