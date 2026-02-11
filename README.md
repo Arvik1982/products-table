@@ -24,7 +24,8 @@ React 18+ TypeScript приложение для административно�
 🔹 TailwindCSS (UI/стили)
 🔹 React Table (таблица + сортировка)
 🔹 Lucide React (иконки)
-🔹 Redux+RTq
+🔹 Redux + RTK Query (API + состояние)
+
 ```
 
 ## 🚀 Быстрый старт
